@@ -366,6 +366,21 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Обработчик ошибок для Telegram бота
+def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Обработчик ошибок Telegram бота"""
+    logger.error("Exception while handling an update:", exc_info=context.error)
+    
+    # Отправляем сообщение об ошибке пользователю
+    if update and hasattr(update, 'effective_chat') and update.effective_chat:
+        try:
+            context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text="❌ Произошла ошибка при обработке запроса. Попробуйте еще раз."
+            )
+        except Exception as e:
+            logger.error(f"Error sending error message: {e}")
+
 # İstifadəçi məlumatlarını saxlamaq üçün
 user_data = {}
 
@@ -438,6 +453,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Please select your language:",
             reply_markup=get_language_keyboard()
         )
+
+async def get_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Команда для получения Telegram ID пользователя"""
+    user_id = update.effective_user.id
+    user_name = update.effective_user.first_name or "Unknown"
+    
+    await update.message.reply_text(
+        f"🆔 **Ваш Telegram ID:** `{user_id}`\n"
+        f"👤 **Имя:** {user_name}\n\n"
+        f"📋 **Используйте этот ID в 1win для webhook интеграции!**"
+    )
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Düymə basma hadisələri"""
@@ -686,8 +712,12 @@ def main():
     
     # Handler-ləri əlavə etmək
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("getid", get_id)) # Добавляем команду /getid
     application.add_handler(CallbackQueryHandler(button_callback))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    
+    # Добавляем обработчик ошибок
+    application.add_error_handler(error_handler)
     
     # Botu başlatmaq
     print("Bot başladıldı...")
