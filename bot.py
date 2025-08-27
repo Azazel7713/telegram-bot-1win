@@ -1,16 +1,14 @@
 import logging
 import json
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
-from config import BOT_TOKEN, ADMIN_ID, REGISTRATION_LINK, LANGUAGES, MESSAGES
 import os
 import asyncio
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
-from config import BOT_TOKEN, ADMIN_ID, LANGUAGES, MESSAGES
 import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import socket
+
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto
+from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
+from config import BOT_TOKEN, ADMIN_ID, REGISTRATION_LINK, LANGUAGES, MESSAGES
 
 # Простой HTTP сервер для Render
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
