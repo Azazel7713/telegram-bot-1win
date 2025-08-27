@@ -340,7 +340,6 @@ class WebhookHTTPRequestHandler(BaseHTTPRequestHandler):
 
 def run_http_server():
     try:
-        # Находим свободный порт
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.bind(('', 0))
         port = sock.getsockname()[1]
@@ -349,16 +348,12 @@ def run_http_server():
         server = HTTPServer(('0.0.0.0', port), WebhookHTTPRequestHandler)
         print(f"Webhook server running on port {port}")
         print(f"Webhook endpoints:")
-        print(f"  POST / - Registration verification")
-        print(f"  POST / - Deposit verification")
+        print(f"  GET /webhook/{{user_id}}/{{amount}}/{{country}} - Registration/Deposit verification")
+        print(f"  POST / - Registration/Deposit verification (JSON with token)")
         print(f"  GET / - Health check")
         server.serve_forever()
     except Exception as e:
         print(f"Webhook server error: {e}")
-
-# Запускаем HTTP сервер в отдельном потоке
-http_thread = threading.Thread(target=run_http_server, daemon=True)
-http_thread.start()
 
 # Logging konfiqurasiyası
 logging.basicConfig(
@@ -727,6 +722,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     """Əsas funksiya"""
+    # Запускаем HTTP сервер для webhook в отдельном потоке
+    http_thread = threading.Thread(target=run_http_server, daemon=True)
+    http_thread.start()
+    
     # Bot yaratmaq
     application = Application.builder().token(BOT_TOKEN).build()
     
