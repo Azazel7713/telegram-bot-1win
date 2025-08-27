@@ -4,6 +4,39 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, InputMe
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
 from config import BOT_TOKEN, ADMIN_ID, REGISTRATION_LINK, LANGUAGES, MESSAGES
 import os
+import asyncio
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
+from config import BOT_TOKEN, ADMIN_ID, LANGUAGES, MESSAGES
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
+import socket
+
+# Простой HTTP сервер для Render
+class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write(b'Bot is running!')
+
+def run_http_server():
+    try:
+        # Находим свободный порт
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.bind(('', 0))
+        port = sock.getsockname()[1]
+        sock.close()
+        
+        server = HTTPServer(('0.0.0.0', port), SimpleHTTPRequestHandler)
+        print(f"HTTP server running on port {port}")
+        server.serve_forever()
+    except Exception as e:
+        print(f"HTTP server error: {e}")
+
+# Запускаем HTTP сервер в отдельном потоке
+http_thread = threading.Thread(target=run_http_server, daemon=True)
+http_thread.start()
 
 # Logging konfiqurasiyası
 logging.basicConfig(
