@@ -368,19 +368,22 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Обработчик ошибок для Telegram бота
-def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Обработчик ошибок Telegram бота"""
-    logger.error("Exception while handling an update:", exc_info=context.error)
-    
-    # Отправляем сообщение об ошибке пользователю
-    if update and hasattr(update, 'effective_chat') and update.effective_chat:
-        try:
-            context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text="❌ Произошла ошибка при обработке запроса. Попробуйте еще раз."
-            )
-        except Exception as e:
-            logger.error(f"Error sending error message: {e}")
+    try:
+        logger.error("Exception while handling an update:", exc_info=context.error)
+        
+        # Отправляем сообщение об ошибке пользователю
+        if update and hasattr(update, 'effective_chat') and update.effective_chat:
+            try:
+                await context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text="❌ Произошла ошибка при обработке запроса. Попробуйте еще раз."
+                )
+            except Exception as e:
+                logger.error(f"Error sending error message: {e}")
+    except Exception as e:
+        logger.error(f"Error in error handler: {e}")
 
 # İstifadəçi məlumatlarını saxlamaq üçün
 user_data = {}
