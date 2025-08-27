@@ -51,7 +51,7 @@ MESSAGES = {
     'tr': {
         'welcome': '🤖 Bota hoş geldiniz!\n\n🚀 Yerleşik yapay zeka ile donatılmış EN İYİ BOT!\n\n💎 Bu bot hesabınıza özel yazılım sağlar ve 1win sitesinde istikrarlı gelir sunar.\n\n🧠 Proje Reationale yapay zekası temelinde kurulmuştur.\n\n💰 Kazanmaya başlayın!',
         'step1_title': '📝 Adım 1 - Kayıt olun',
-        'step1_text': '🔗 Hesabınızı botumuzla senkronize etmek için YENİ hesap kaydı yapmanız gerekiyor.\n\n🎁 Kayıt sırasında mutlaka Topwinbot promosyon kodunu girmeniz gerekiyor, aksi takdirde bot çalışmayacak!!!\n\n⚠️ Eğer linke geçiş yapıp eski hesaba düşüyorsanız, ondan çıkmalı ve linke YENİDEN geçiş yapmalısınız!\n\n✅ Kayıt tamamlandıktan sonra bota geri dönün.',
+        'step1_text': '🔗 Hesabınızı botumuzla senkronize etmek için YENİ hesap kaydı yapmanız gerekiyor.\n\n🎁 Kayıt sırasında mutlaka Topwinbot promosyon kodunu girmeniz gerekiyor, aksi takdirde bot çalışmayacak!!!\n\n⚠️ Eğer linke geçiş yapıp eski hesaba düşüyorsanız, ondan çıkmalı və linke YENİDEN geçiş yapmalısınız!\n\n✅ Kayıt tamamlandıktan sonra bota geri dönün.',
         'step2_title': '💳 Adım 2 - İlk depozit',
         'step2_text': '💰 Şimdi bot ile entegrasyon için herhangi bir miktarda ilk depozit yapmanız ve kontrol için ID\'nizi göndermeniz gerekiyor.\n\n🎯 Minimum miktar: 1₺\n\n⚡ Hızlı ve güvenli!',
         'send_id': '🆔 Kontrol için hesap ID\'nizi gönderin\n\n📋 ID\'nizi sohbete yapıştırın ve gönderin',
@@ -73,7 +73,7 @@ MESSAGES = {
         'step1_text': '🔗 Для синхронизации вашего аккаунта с нашим ботом необходимо зарегистрировать НОВЫЙ аккаунт.\n\n🎁 Во время регистрации обязательно нужно ввести промокод Topwinbot иначе бот не заработает!!!\n\n⚠️ Если вы переходите по ссылке и попадаете на старый аккаунт, необходимо выйти из него и ЗАНОВО перейти по ссылке регистрации!\n\n✅ После завершения регистрации вернитесь в бот.',
         'step2_title': '💳 Шаг 2 - Первый депозит',
         'step2_text': '💰 Теперь для интеграции в боте вам нужно сделать первый депозит на любую сумму и отправить свой id для проверки.\n\n🎯 Минимальная сумма: 1₽\n\n⚡ Быстро и безопасно!',
-        'send_id': '🆔 Отправьте свой id аккаунта на проверку\n\n📋 Вставьте id в чат и отправьте',
+        'send_id': '🔄 Проверяем регистрацию...\n\n⏳ Отправляем запрос на проверку...',
         'registration_check': '✅ Проверка регистрации',
         'deposit_check': '💰 Проверка депозита',
         'not_registered': '❌ Вы не зарегистрировались\n\n🔄 Попробуйте снова',

@@ -6,6 +6,7 @@ import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import socket
 import urllib.parse
+from datetime import datetime
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
@@ -514,12 +515,20 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
     
     elif query.data == "check_registration":
-        # Qeydiyyat yoxlaması
+        # Qeydiyyat yoxlaması через webhook
         lang = user_data[user_id]["lang"]
-        user_data[user_id]["waiting_for_id"] = True
+        
+        # Показываем сообщение о проверке
         await query.edit_message_caption(
-            caption=MESSAGES[lang]['send_id'],
+            caption="⏳ Проверяем регистрацию...\n\n🔄 Отправляем запрос на проверку...",
             reply_markup=get_waiting_keyboard(lang)
+        )
+        
+        # Отправляем уведомление админу для проверки
+        await context.bot.send_message(
+            chat_id=ADMIN_ID,
+            text=f"🆕 Yeni qeydiyyat yoxlaması!\n\n👤 İstifadəçi ID: {user_id}\n🆔 Hesab ID: {user_id}\n\n⏰ Zaman: {datetime.now().strftime('%H:%M:%S')}",
+            reply_markup=get_admin_keyboard(user_id, "registration")
         )
     
     elif query.data == "step2":
@@ -549,12 +558,20 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
     
     elif query.data == "check_deposit":
-        # Depozit yoxlaması
+        # Depozit yoxlaması через webhook
         lang = user_data[user_id]["lang"]
-        user_data[user_id]["waiting_for_deposit_id"] = True
+        
+        # Показываем сообщение о проверке
         await query.edit_message_caption(
-            caption=MESSAGES[lang]['send_id'],
+            caption="⏳ Проверяем депозит...\n\n🔄 Отправляем запрос на проверку...",
             reply_markup=get_waiting_keyboard(lang)
+        )
+        
+        # Отправляем уведомление админу для проверки
+        await context.bot.send_message(
+            chat_id=ADMIN_ID,
+            text=f"💰 Yeni depozit yoxlaması!\n\n👤 İstifadəçi ID: {user_id}\n🆔 Hesab ID: {user_id}\n\n⏰ Zaman: {datetime.now().strftime('%H:%M:%S')}",
+            reply_markup=get_admin_keyboard(user_id, "deposit")
         )
     
     elif query.data == "back_to_step1":
@@ -684,7 +701,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Admin-ə bildiriş göndər
         await context.bot.send_message(
             chat_id=ADMIN_ID,
-            text=f"🆕 Yeni qeydiyyat yoxlaması!\n\n👤 İstifadəçi ID: {user_id}\n🆔 Hesab ID: {message_text}\n\n⏰ Zaman: {update.message.date.strftime('%H:%M:%S')}",
+            text=f"🆕 Yeni qeydiyyat yoxlaması!\n\n👤 İstifadəçi ID: {user_id}\n🆔 Hesab ID: {message_text}\n\n⏰ Zaman: {datetime.now().strftime('%H:%M:%S')}",
             reply_markup=get_admin_keyboard(user_id, "registration")
         )
         
@@ -699,7 +716,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Admin-ə bildiriş göndər
         await context.bot.send_message(
             chat_id=ADMIN_ID,
-            text=f"💰 Yeni depozit yoxlaması!\n\n👤 İstifadəçi ID: {user_id}\n🆔 Hesab ID: {message_text}\n\n⏰ Zaman: {update.message.date.strftime('%H:%M:%S')}",
+            text=f"💰 Yeni depozit yoxlaması!\n\n👤 İstifadəçi ID: {user_id}\n🆔 Hesab ID: {message_text}\n\n⏰ Zaman: {datetime.now().strftime('%H:%M:%S')}",
             reply_markup=get_admin_keyboard(user_id, "deposit")
         )
         
